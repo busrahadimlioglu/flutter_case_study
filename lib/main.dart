@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_case_study/routes/homepage.dart';
-import 'package:flutter_case_study/routes/settingspage.dart';
+import 'package:flutter_case_study/homePage.dart';
 
 void main() {
+  runApp(const MyApp());
+}
 
-  runApp(MaterialApp(
-    initialRoute: '/homepage',
-    routes: {
-      '/settingspage': (context) => Settingspage(),
-      '/homepage': (context) => Homepage(),
-    },
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  ));
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: HomePage(),
+    );
+  }
 }
