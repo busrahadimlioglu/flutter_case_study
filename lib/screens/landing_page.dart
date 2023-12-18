@@ -5,6 +5,7 @@ import 'package:flutter_case_study/settingsPage.dart';
 
 import '../bloc/landing_page_bloc.dart';
 
+
 List<BottomNavigationBarItem> bottomNavItems = const <BottomNavigationBarItem>[
   BottomNavigationBarItem(
     icon: Icon(Icons.home_filled),
@@ -16,10 +17,14 @@ List<BottomNavigationBarItem> bottomNavItems = const <BottomNavigationBarItem>[
   ),
 ];
 
-const List<Widget> bottomNavScreen = <Widget>[
-  HomePage(),
+List<Widget> bottomNavScreen = <Widget>[
+  HomePage(dogBreeds: [], breedImages: {}),
   SettingsPage(),
 ];
+
+mixin dogBreeds {
+
+}
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

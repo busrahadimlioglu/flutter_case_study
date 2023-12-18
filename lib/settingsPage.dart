@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_case_study/widgets/navbars.dart';
 import 'package:flutter_case_study/widgets/setting_tile.dart';
 import 'dart:io';
 import 'models/settings.dart';
