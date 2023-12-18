@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_case_study/homePage.dart';
+import 'package:flutter_case_study/settingsPage.dart';
 
 import '../bloc/landing_page_bloc.dart';
 
 List<BottomNavigationBarItem> bottomNavItems = const <BottomNavigationBarItem>[
   BottomNavigationBarItem(
-    icon: Icon(Icons.home_outlined),
+    icon: Icon(Icons.home_filled),
     label: 'Home',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.settings),
+    icon: Icon(Icons.settings_outlined),
     label: 'Settings',
   ),
 ];
 
 const List<Widget> bottomNavScreen = <Widget>[
   HomePage(),
-  Text('Settings'),
+  SettingsPage(),
 ];
 
 class LandingPage extends StatelessWidget {
