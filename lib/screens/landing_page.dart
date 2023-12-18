@@ -11,7 +11,7 @@ List<BottomNavigationBarItem> bottomNavItems = const <BottomNavigationBarItem>[
     label: 'Home',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.settings_outlined),
+    icon: Icon(Icons.settings),
     label: 'Settings',
   ),
 ];

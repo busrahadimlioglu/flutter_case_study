@@ -14,7 +14,7 @@ class Setting {
 final List<Setting> settings = [
   Setting(
     title: "Help",
-    icon: CupertinoIcons.person_fill,
+    icon: CupertinoIcons.info,
   ),
   Setting(
     title: "Rate Us",
@@ -31,10 +31,6 @@ final List<Setting> settings = [
   Setting(
     title: "Privacy Policy",
     icon: Icons.verified_user_outlined,
-  ),
-  Setting(
-    title: "OS Version",
-    icon: Icons.cable_outlined,
   ),
 
 ];
