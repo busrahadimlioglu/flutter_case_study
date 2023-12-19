@@ -45,7 +45,11 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('appName'),
+        title: Text('appName',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -104,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                                   breed,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16.0,
+                                    fontSize: 20.0,
                                   ),
                                 ),
                               ),
@@ -129,6 +133,7 @@ class _HomePageState extends State<HomePage> {
                   _focusNode.requestFocus();
                 },
                 onChanged: _filterBreeds,
+                style: TextStyle(fontSize: 20.0),
                 decoration: InputDecoration(
                   hintText: 'Search',
                   border: _textFieldHeight == 80.0 ? OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),) : InputBorder.none,
