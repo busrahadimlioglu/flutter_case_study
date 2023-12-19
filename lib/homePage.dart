@@ -183,6 +183,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.transparent,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -190,11 +191,21 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child:const Icon(Icons.close),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                ),
+                margin: EdgeInsets.all(8),
+                child: IconButton(
+                  icon: Icon(Icons.close, color: Colors.black),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
             ),
           ],
         );
@@ -202,57 +213,97 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+
   void _showBottomSheet(BuildContext context, String breed, String imageUrl) async {
     List<String> subBreeds = await getSubBreeds(breed);
 
-    showModalBottomSheet(
+    showGeneralDialog(
       context: context,
-      builder: (context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Breed:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
-                ),
-                const Divider(),
-                Text(
-                  breed,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Sub-Breeds: ',
-                  style: TextStyle(fontSize: 16, color: Colors.blue),
-                ),
-                const Divider(),
-                Text(
-                  '${subBreeds.join(", ")}',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 16),
-                Image.network(imageUrl),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    _generateRandomImage(breed);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      barrierDismissible: false,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 200),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curvedValue = Curves.easeInOutBack.transform(animation.value);
+        return Transform.scale(
+          scale: 1 - (0.2 * curvedValue),
+          child: Opacity(
+            opacity: 1.0,
+            child: AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              content: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Image.network(imageUrl),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            margin: EdgeInsets.all(8),
+                            child: IconButton(
+                              icon: Icon(Icons.close, color: Colors.black),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Breed ',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
+                      ),
+                      const Divider(),
+                      Text(
+                        breed,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Sub-Breeds ',
+                        style: TextStyle(fontSize: 16, color: Colors.blue),
+                      ),
+                      const Divider(),
+                      Text(
+                        '${subBreeds.join(", ")}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          _generateRandomImage(breed);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                          minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 48.0)),
+                        ),
+                        child: Text('Generate', style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
                   ),
-                  child: Text('Generate', style: TextStyle(color: Colors.black)),
                 ),
-              ],
+              ),
             ),
           ),
         );
       },
+      pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
+        return Container();
+      },
     );
   }
+
+
 
 
 }
