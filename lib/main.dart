@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_case_study/homePage.dart';
-import 'package:flutter_case_study/routes/generatedRoutes.dart';
-import 'package:flutter_case_study/settingsPage.dart';
-import 'package:flutter_case_study/splashScreen.dart';
+import 'package:flutter_case_study/screens/homePage.dart';
+import 'package:flutter_case_study/screens/settingsPage.dart';
+import 'package:flutter_case_study/screens/splashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/homePage': (context) => HomePage(dogBreeds: [], breedImages: {}),
-        '/settingsPage': (context) => SettingsPage(),
+        '/homePage': (context) => const HomePage(dogBreeds: [], breedImages: {}),
+        '/settingsPage': (context) => const SettingsPage(),
       },
-        home: SplashScreen(),
+        home: const SplashScreen(),
     );
   }
 }

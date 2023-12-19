@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'homePage.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

@@ -23,7 +23,7 @@ class SettingTile extends StatelessWidget {
           const SizedBox(width: 15),
           Text(
             setting.title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xff000000),
               fontSize: 20,
               fontWeight: FontWeight.w500,

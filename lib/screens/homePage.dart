@@ -8,16 +8,16 @@ class HomePage extends StatefulWidget {
   final List<String> dogBreeds;
   final Map<String, String> breedImages;
 
-  HomePage({required this.dogBreeds, required this.breedImages});
+  const HomePage({super.key, required this.dogBreeds, required this.breedImages});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController _filterController = TextEditingController();
+  final TextEditingController _filterController = TextEditingController();
   List<String> filteredBreeds = [];
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   double _textFieldHeight = 80.0;
   double _maxTextFieldHeight = 0.0;
   String _randomImageUrl = '';
@@ -194,13 +194,13 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.center,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.rectangle,
                 ),
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: IconButton(
-                  icon: Icon(Icons.close, color: Colors.black),
+                  icon: const Icon(Icons.close, color: Colors.black),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_case_study/widgets/navbars.dart';
 import 'package:flutter_case_study/widgets/setting_tile.dart';
 import 'dart:io';
-import 'models/settings.dart';
+import '../models/settings.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,7 +26,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: List.generate(
                     settings.length,
                         (index) => SettingTile(setting: settings[index]),
-
                   ),
                 ),
                 Row(
@@ -37,10 +34,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 50,
                       width: 50,
                       margin: const EdgeInsets.only(bottom: 10),
-                      child: Icon(Icons.cable_outlined, color: Colors.black),
+                      child: const Icon(Icons.cable_outlined, color: Colors.black),
                     ),
                     const SizedBox(width: 15),
-                    Text(
+                    const Text(
                       "OS Version",
                       style: TextStyle(
                         color: Color(0xff000000),
@@ -51,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     const Spacer(),
                     Text(
                       osVersion,
-                      style: TextStyle(fontSize: 14,
+                      style: const TextStyle(fontSize: 14,
                         color: Color(0xff838282)
                       ),
                     ),
