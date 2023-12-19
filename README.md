@@ -1,6 +1,8 @@
 # flutter_case_study
 
-Block kullanmadan yapıldı.
-Bottom bar Figma tasarımı ile aynı olmadı.
-Bottom Sheet resim kenarları Figma tasarımı ile aynı olmadı.
+<br /> Block kullanmadan yapıldı
+<br /> Bottom bar Figma tasarımı ile aynı olmadı.
+<br /> Bottom Sheet resim kenarları Figma tasarımı ile aynı olmadı.
+
+
 
