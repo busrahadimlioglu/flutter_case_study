@@ -22,7 +22,7 @@ final List<Setting> settings = [
   ),
   Setting(
     title: "Share With Friends",
-    icon: Icons.ios_share,
+    icon: Icons.share,
   ),
   Setting(
     title: "Terms of Use",

@@ -18,12 +18,11 @@ class _SettingsPageState extends State<SettingsPage> {
     String osVersion = getOSVersion();
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
                   children: List.generate(
@@ -40,19 +39,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Icon(Icons.cable_outlined, color: Colors.black),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 15),
                     Text(
                       "OS Version",
                       style: TextStyle(
-                        color: Color(0xff212C42),
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        color: Color(0xff000000),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const Spacer(),
                     Text(
                       osVersion,
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14,
+                        color: Color(0xff838282)
+                      ),
                     ),
 
                   ],

@@ -1,37 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-BottomNavigationBar bottomNavBar(BuildContext context)
-{
-  return BottomNavigationBar(
+class CustomBottomNavBar extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const CustomBottomNavBar({super.key, required this.currentIndex, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedIconTheme: IconThemeData(color: Colors.blue),
-      unselectedIconTheme: IconThemeData(color: Colors.black),
-      selectedLabelStyle: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w600),
-      unselectedLabelStyle: TextStyle(color: Colors.black, fontSize: 15,fontWeight: FontWeight.w600),
-      items: <BottomNavigationBarItem>[
+      selectedIconTheme: IconThemeData(color: Colors.blue[600], size: 40),
+      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 40),
+      selectedItemColor: Colors.blue[600],
+      selectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+      unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+      currentIndex: currentIndex,
+      onTap: onTap,
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: IconButton(
-
-            onPressed: (){
-              Navigator.pushNamed(context, '/homePage');
-            },
-            icon: const Icon(Icons.home),
-          ),
+          icon: Icon(Icons.home),
           label: 'Home',
-
         ),
         BottomNavigationBarItem(
-          icon: IconButton(
-
-            onPressed: (){
-              Navigator.pushNamed(context, '/settingsPage');
-            },
-            icon: const Icon(Icons.settings_outlined),
-          ),
+          icon: Icon(Icons.settings_outlined),
           label: 'Settings',
-
         ),
-      ]
-  );
+      ],
+    );
+  }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_case_study/widgets/navbars.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   final List<String> dogBreeds;
@@ -17,6 +20,29 @@ class _HomePageState extends State<HomePage> {
   FocusNode _focusNode = FocusNode();
   double _textFieldHeight = 80.0;
   double _maxTextFieldHeight = 0.0;
+  String _randomImageUrl = '';
+
+  Future<List<String>> getSubBreeds(String breed) async {
+    final response = await http.get(Uri.parse('https://dog.ceo/api/breed/$breed/list'));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      List<String> subBreeds = List<String>.from(data['message']);
+      return subBreeds;
+    } else {
+      throw Exception('Failed to load sub-breeds for $breed');
+    }
+  }
+
+  Future<void> _generateRandomImage(String breed) async {
+    final response = await http.get(Uri.parse('https://dog.ceo/api/breed/$breed/images/random'));
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      _randomImageUrl = data['message'];
+      _showRandomImageDialog(context, _randomImageUrl);
+    } else {
+      throw Exception('Failed to generate a random image for $breed');
+    }
+  }
 
   @override
   void initState() {
@@ -45,130 +71,189 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('appName',
+        title: const Text('appName',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
       ),
-      body: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          // Calculate the drag delta
-          double delta = details.primaryDelta ?? 0;
-          // Update the text field height based on the drag
-          setState(() {
-            _textFieldHeight = (_textFieldHeight - delta).clamp(200.0, _maxTextFieldHeight);
-          });
-        },
-        onVerticalDragEnd: (details) {
-          // Perform any additional actions on drag end if needed
-        },
-        child: Column(
-          children: [
-            // Rest of the content
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Set the number of columns
-                  crossAxisSpacing: 8.0, // Set the spacing between columns
-                  mainAxisSpacing: 8.0, // Set the spacing between rows
-                ),
-                itemCount: filteredBreeds.length,
-                itemBuilder: (context, index) {
-                  final breed = filteredBreeds[index];
-                  final imageUrl = widget.breedImages[breed] ?? '';
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: GestureDetector(
+          onVerticalDragUpdate: (details) {
+            double delta = details.primaryDelta ?? 0;
+            setState(() {
+              _textFieldHeight = (_textFieldHeight - delta).clamp(200.0, _maxTextFieldHeight);
+            });
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15.0,
+                    mainAxisSpacing: 15.0,
+                  ),
+                  itemCount: filteredBreeds.length,
+                  itemBuilder: (context, index) {
+                    final breed = filteredBreeds[index];
+                    final imageUrl = widget.breedImages[breed] ?? '';
 
-                  return GestureDetector(
-                    onTap: () {
-                      _showBottomSheet(context, breed, imageUrl);
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 50,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20.0),
-                              ),
-                              child: Container(
-                                color: Colors.black.withOpacity(0.5), // Set the background color with transparency
-                                padding: const EdgeInsets.all(8.0),
-                              
-                                child: Text(
-                                  breed,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
+                    return GestureDetector(
+                      onTap: () {
+                        _showBottomSheet(context, breed, imageUrl);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 50,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(20.0),
+                                ),
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5),
+                                  padding: const EdgeInsets.all(8.0),
+
+                                  child: Text(
+                                    breed,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            // Move the TextField to the bottom
-            AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              height: _textFieldHeight,
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _filterController,
-                focusNode: _focusNode,
-                onTap: () {
-                  _focusNode.requestFocus();
-                },
-                onChanged: _filterBreeds,
-                style: TextStyle(fontSize: 20.0),
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  border: _textFieldHeight == 80.0 ? OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),) : InputBorder.none,
+                    );
+                  },
                 ),
               ),
-            ),
-          ],
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: _textFieldHeight,
+                padding: const EdgeInsets.all(0.5),
+                child: TextField(
+                  controller: _filterController,
+                  focusNode: _focusNode,
+                  onTap: () {
+                    _focusNode.requestFocus();
+                  },
+                  onChanged: _filterBreeds,
+                  style: const TextStyle(fontSize: 20.0),
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    border: _textFieldHeight == 80.0 ? OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)): InputBorder.none,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      bottomNavigationBar: bottomNavBar(context),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushNamed(context, '/homePage');
+          } else if (index == 1) {
+            Navigator.pushNamed(context, '/settingsPage');
+          }
+        },
+      ),
     );
   }
 
-  void _showBottomSheet(BuildContext context, String breed, String imageUrl) {
-    showModalBottomSheet(
+  void _showRandomImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
       context: context,
-      builder: (context) {
-        return Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.network(imageUrl),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  // Implement logic for generating a random image for the selected breed
-                },
-                child: Text('Generate'),
-              ),
             ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child:const Icon(Icons.close),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showBottomSheet(BuildContext context, String breed, String imageUrl) async {
+    List<String> subBreeds = await getSubBreeds(breed);
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Breed:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
+                ),
+                const Divider(),
+                Text(
+                  breed,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Sub-Breeds: ',
+                  style: TextStyle(fontSize: 16, color: Colors.blue),
+                ),
+                const Divider(),
+                Text(
+                  '${subBreeds.join(", ")}',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 16),
+                Image.network(imageUrl),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    _generateRandomImage(breed);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  child: Text('Generate', style: TextStyle(color: Colors.black)),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
+
+
 }
 

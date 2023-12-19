@@ -20,13 +20,13 @@ class SettingTile extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 10),
             child: Icon(setting.icon, color: Colors.black),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 15),
           Text(
             setting.title,
             style: TextStyle(
-              color: Color(0xff212C42),
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+              color: Color(0xff000000),
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
             ),
           ),
           const Spacer(),

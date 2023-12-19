@@ -21,22 +21,18 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> fetchData() async {
-    // Fetch dog breeds
     final breedResponse = await http.get(Uri.parse('https://dog.ceo/api/breeds/list/all'));
     final breedData = json.decode(breedResponse.body);
     dogBreeds = List<String>.from(breedData['message'].keys);
 
-    // Fetch images for each breed (assuming only the first image for simplicity)
     await Future.wait(dogBreeds.map((breed) async {
       final imageResponse = await http.get(Uri.parse('https://dog.ceo/api/breed/$breed/images/random'));
       final imageData = json.decode(imageResponse.body);
       breedImages[breed] = imageData['message'];
     }));
 
-    // Wait for a moment before navigating to the main screen (for visual effect)
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
-    // Navigate to the home screen
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
