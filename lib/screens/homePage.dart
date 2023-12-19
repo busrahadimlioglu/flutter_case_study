@@ -165,16 +165,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 0,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/homePage');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/settingsPage');
-          }
-        },
-      ),
+      bottomNavigationBar: bottomNavBar(context),
     );
   }
 

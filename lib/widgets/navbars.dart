@@ -1,32 +1,38 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-
-  const CustomBottomNavBar({super.key, required this.currentIndex, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
+BottomNavigationBar bottomNavBar(BuildContext context)
+{
+  return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedIconTheme: IconThemeData(color: Colors.blue[600], size: 40),
-      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 40),
+      selectedIconTheme: IconThemeData(color: Colors.blue[600], size: 35),
+      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 35),
       selectedItemColor: Colors.blue[600],
       selectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
       unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
-      currentIndex: currentIndex,
-      onTap: onTap,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: IconButton(
+
+            onPressed: (){
+              Navigator.pushNamed(context, '/homePage');
+            },
+            icon: const Icon(Icons.home),
+          ),
           label: 'Home',
+
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined),
+          icon: IconButton(
+
+            onPressed: (){
+              Navigator.pushNamed(context, '/settingsPage');
+            },
+            icon: const Icon(Icons.settings_outlined),
+          ),
           label: 'Settings',
+
         ),
-      ],
-    );
-  }
+      ]
+  );
 }
